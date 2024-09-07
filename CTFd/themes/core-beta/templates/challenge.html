@@ -1,4 +1,4 @@
-<div :class="getStyles()" role="document" x-data="Challenge" x-init="id = {{ challenge.id }}; max_attempts = {{ max_attempts }}; attempts = {{ attempts }}">
+<div :class="getStyles()" role="document" x-data="Challenge" x-init="id = {{ challenge.id }}">
   <div class="modal-content">
     <div class="modal-body py-4 px-4 px-sm-5">
 
@@ -111,11 +111,15 @@
               </div>
             {% endif %}
 
-            <template x-if="max_attempts > 0">
-              <p class="text-center">
-                <span x-text="attempts"></span>/<span x-text="max_attempts"></span> {% trans c=max_attempts %}attempt{% pluralize %}attempts{% endtrans %}
-              </p>
-            </template>
+            {% if max_attempts > 0 %}
+              <div class="row text-center">
+                <div class="col-12">
+                  <p>
+                    {{ attempts }}/{{ max_attempts }} attempt{{ max_attempts|pluralize }}
+                  </p>
+                </div>
+              </div>
+            {% endif %}
 
             <div class="row submit-row">
               <div class="col-12 col-sm-8">
@@ -149,12 +153,12 @@
             <div class="row notification-row">
               <div class="col-12">
                 <template x-if="response">
-                  {# This alert is re-used for all alerts, so it's important not to make it dismissible #}
-                  <div class="alert text-center w-100 mt-3"
+                  {# This alert is re-used for all alerts, so it's important not to make it dismissble #}
+                  <div
                       :class="{
-                        'alert-success': response.data.status == 'correct',
-                        'alert-info': response.data.status == 'already_solved',
-                        'alert-danger': response.data.status == 'incorrect',
+                        'alert text-center w-100 mt-3 alert-success': response.data.status == 'correct',
+                        'alert text-center w-100 mt-3 alert-info': response.data.status == 'already_solved',
+                        'alert text-center w-100 mt-3 alert-danger': response.data.status == 'incorrect',
                       }" role="alert"
                   >
                     <strong x-text="response.data.message"></strong>
@@ -195,11 +199,15 @@
           <div role="tabpanel" class="tab-pane fade" id="solves">
             <div class="row">
               <div class="col-md-12">
-                <table class="table table-striped align-middle text-center">
+                <table class="table table-striped text-center">
                   <thead>
                   <tr>
-                    <th>{% trans %}Name{% endtrans %}</th>
-                    <th>{% trans %}Date{% endtrans %}</th>
+                    <td>
+                      <b>{% trans %}Name{% endtrans %}</b>
+                    </td>
+                    <td>
+                      <b>{% trans %}Date{% endtrans %}</b>
+                    </td>
                   </tr>
                   </thead>
                   <tbody id="challenge-solves-names">
