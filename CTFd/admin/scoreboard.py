@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template # type: ignore
 
 from CTFd.admin import admin
 from CTFd.utils.config import is_teams_mode
